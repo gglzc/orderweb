@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+    <head>
+        <meta charset="utf-8">
+        <title>林內消防隊訂餐</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    
+ˇ       <style>
+        body{
+            font-family: PingFang;
+            background-color: brown;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .login{
+            background-color: rgb(210, 216, 212);
+            width: 400px;
+            color: black;
+            padding:50px;
+            box-shadow: 10px 10px 25px #000000 ;
+            text-align:center;
+        }
+        
+        .login input{
+            display: block;
+            margin: 20px auto;
+            text-align: center;
+            background-color: none;
+            padding: 12px;
+            font-size: 15px;
+            border-radius: 22px;
+            outline:none;
+            color: rgb(27, 26, 27);
+        }
+        
+        .login select{
+            width: 150px;
+            text-align:center;
+        }
+        
+        .login input[type="text"] {
+            width: 150px;
+        }
+        
+        
+        .login input[type="submit"] {
+            width: 220px;
+            cursor: pointer;
+        }
+        
+        .login input[type="text"]:focus {
+            width: 180px;
+            transition: 0.5s;
+        }
+        
+        .login input[type="submit"]:hover{
+            transition: 0.5s;
+            background-color: cadetblue;
+        }
+        </style>
+    </head>
+    <body>   
+    <form  class="login" action="https://script.google.com/macros/s/AKfycbxaJNtPeM4rGy7Ut_9CML2p62-o0Vpuyf-RSKiM3vGt5vfN3wQ/exec" method="get">
+        <h1>林內消防隊訂單系統</h1>
+            <input type="text" placeholder="你的姓名"  id="name" name="name"/>
+            <input type="text" placeholder="你的號碼"  id="number" name="number"/>
+            <select name="order" value="order" id="order">
+                <option>日月</option>
+                <option data-price="60" value="招牌">招牌＄60</option>
+                <option data-price="60" value="菜飯">菜飯＄60</option>
+                <option data-price="65" value="爌肉飯">爌肉飯＄65</option>
+                <option data-price="70" value="排骨">排骨＄70</option>
+                <option data-price="70" value="小雞腿飯">小雞腿飯＄70</option>
+                <option data-price="70" value="豬腳飯">豬腳飯＄70</option>
+                <option data-price="70" value="魚類便當">魚類便當＄70</option>
+                <option data-price="90" value="大雞腿飯">大雞腿飯＄95</option>
+                <option data-price="10" value="白飯">白飯＄10</option>
+                <option data-price="35" value="瓜仔肉飯">瓜仔肉飯＄35</option>
+
+            <input type="text" placeholder="備註 例如：飯少" id="ps" name="ps"/>
+            <input type="submit"   id="sendorder" name="sendorder" />
+    </form>
+    <script>
+    $(function(){
+        $('#sendorder').click(function(e){
+        var status = true;
+        var name = $('#name').val();
+        var number = $('#number').val();   
+        var order = '';
+        var ps='';
+        var price = 0;
+        $('input').focus(function(){
+            $(this).css('border','');
+          });
+        // 處理價格 跟 訂單 資料
+       $('.select').each(function(index) {
+        if($(this).val() !== ''){
+          price += Number($(this).data('price')) 
+        }
+      });
+        order = order.substring(0, order.length - 1);
+
+        if(name == ''){
+          $('#name').css('border','1px solid #ff0000');
+          status = false;
+        }
+        if(number== ''){
+          $('#number').css('border','1px solid #ff0000');
+          status = false;
+        }
+        if(status){
+          var currentdate = new Date();
+          var filltime = currentdate.getFullYear() + "/"
+                + (currentdate.getMonth() + 1) + "/"
+                + currentdate.getDate() + "  "
+                + currentdate.getHours() + ":"
+                + currentdate.getMinutes() + ":"
+                + currentdate.getSeconds();
+      
+          var data = {
+            'name' : name,
+            'ps':ps,
+            'time': filltime,
+            'order': order,
+            'price': price,
+          }
+          send(data);
+        }
+      });
+      });
+      
+      
+      function send(data){
+      $.ajax({
+        type: "get",
+        url: "https://script.google.com/macros/s/AKfycbxaJNtPeM4rGy7Ut_9CML2p62-o0Vpuyf-RSKiM3vGt5vfN3wQ/exec",
+        data: data,
+        dataType: "JSON",
+        success: function (response) {
+          console.log(response);
+          alert('感謝您的訂購！！');
+        }
+      });
+      }
+  </script>
+
+</body>
+</html>
+
